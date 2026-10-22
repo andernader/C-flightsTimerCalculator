@@ -2,10 +2,11 @@
 #include <stdlib.h>
 
 int main(){
-    int hh24, mm, converted_hh24, smallest_time = 1000, i_temp = 1;
+    int hh12, mm, converted_hh24, smallest_time = 1000, i_temp = 1;
+    char am_pm;
     start:
-    printf("Enter a time in the 24 hour forum (24:00): ");
-    scanf("%d : %d",&hh24, &mm);
+    printf("Enter a time in the 12 hour forum (12:00 PM): ");
+    scanf("%d : %d %c",&hh12, &mm, &am_pm);  //entering the first letter of either pm or am is enough
 
     int t[9] = {0};
 
@@ -18,7 +19,20 @@ int main(){
     t[7] = 19 * 60 ;     // 07:00 PM
     t[8] = 21 * 60 + 45; // 09:45 PM
 
-    converted_hh24 = hh24 * 60 + mm;
+
+    if(am_pm == 'p' || am_pm == 'P'){
+        if(hh12 != 12)
+            converted_hh24 = (hh12 + 12) * 60 + mm;
+        else
+            converted_hh24 = hh12 * 60 + mm;
+    }else{
+        if(hh12 != 12)
+            converted_hh24 = hh12 * 60 + mm;
+        else{
+            converted_hh24 = (hh12 - 12) * 60 + mm;
+        }
+    }
+    //converted_hh24 = hh24 * 60 + mm;
 
     for(int i = 1; i <= 8; i++){
         if(t[i] - converted_hh24 <= 0)
@@ -34,7 +48,7 @@ int main(){
         case 1: printf("8:00 A.M., arriving at 10:16 A.M.\n");break;
         case 2: printf("9:43 A.M., arriving at 11:52 A.M.\n");break;
         case 3: printf("11:19 A.M., arriving at 1:31 P.M.\n");break;
-        case 4: printf("12:47 A.M., arriving at 3:00 P.M.\n");break;
+        case 4: printf("12:47 P.M., arriving at 3:00 P.M.\n");break;
         case 5: printf("2:00 P.M., arriving at 4:08 P.M.\n");break;
         case 6: printf("3:45 P.M., arriving at 5:55 P.M.\n");break;
         case 7: printf("7:00 P.M., arriving at 9:20 P.M.\n");break;
